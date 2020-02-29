@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+  <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+  <title>微信网页授权</title>
+</head>
+
+<body>
+  <h1>登录授权页面</h1>
+  <script>
+    // 第一步：用户同意授权，获取code
+    const url = encodeURIComponent('http://wechatwy.free.idcfengye.com/home')
+    $(location).attr('href', `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx61364cd23359d0f6&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=abc#wechat_redirect`);
+    // window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx61364cd23359d0f6&redirect_uri=http://wechatwy.free.idcfengye.com/auth&response_type=code&scope=snsapi_userinfo&state=abc#wechat_redirect'
+  </script>
+</body>
+
+</html>

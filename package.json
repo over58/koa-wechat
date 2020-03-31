@@ -1,21 +1,27 @@
 {
-  "name": "wx-wechat",
+  "name": "koa-wechat",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "pm2 app.js --name koa-wechat"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.19.2",
     "koa": "^2.11.0",
+    "koa-body": "^4.1.1",
+    "koa-log4": "^2.3.2",
+    "koa-logger": "^3.2.1",
     "koa-router": "^8.0.8",
     "koa-views": "^6.2.1",
     "koa2-cors": "^2.0.6",
     "nodemon": "^2.0.2",
-    "sha1": "^1.1.1"
+    "pm2": "^4.2.3",
+    "sha1": "^1.1.1",
+    "xml2js": "^0.4.23"
   }
 }

@@ -21,7 +21,7 @@ class Wechat {
     this.fileUrl = './config/accessToken.txt'
   }
   // 获取access_token方法
-  getAccessToken = () => {
+  getAccessToken () {
     return new Promise((resolve, reject) => {
       // 定义url地址
       const url = `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${this.appId}&secret=${this.appSecret}`
@@ -38,7 +38,7 @@ class Wechat {
     })
   }
   // 保存本地access_token方法
-  saveAccessToken = (data) => {
+  saveAccessToken (data) {
     return new Promise((resolve, reject) => {
       const str = JSON.stringify(data)
       writeFile(this.fileUrl, str, err => {
@@ -52,12 +52,17 @@ class Wechat {
     })
   }
   // 读取本地access_token方法
-  readAccessToken = async () => {
+  async readAccessToken () {
     return new Promise((resolve, reject) => {
       readFile(this.fileUrl, (err, data) => {
         if (!err) {
-          const obj = JSON.parse(data)
-          resolve(obj)
+          try{
+            const obj = JSON.parse(data)            
+            resolve(obj)
+
+          }catch{
+            reject('本地文件读取失败')
+          }
         } else {
           reject('本地文件读取失败')
         }
@@ -65,7 +70,7 @@ class Wechat {
     })
   }
   // 判断access_token是否为有效
-  isValidAccessToken = (data) => {
+  isValidAccessToken (data) {
     if (!data || !data.access_token || !data.expires_in) {
       return false;
     }
@@ -73,18 +78,20 @@ class Wechat {
     return data.expires_in > new Date().getTime()
   }
   // 初始化
-  init = async () => {
+  async init(app) {
     return new Promise((resolve, reject) => {
       this.readAccessToken()
         .then(async res => {
           // 本地有文件, 判断access_token是否为有效
           if (this.isValidAccessToken(res)) {
+            app.context.access_token = res.access_token
             // access_token有效
             resolve(res)
           } else {
             // access_token无效
             // 发送异步请求获取文件
             const data = await this.getAccessToken()
+            app.context.access_token = data.access_token
             // 获取文件之后，保存到本地
             this.saveAccessToken(data)
           }
@@ -94,6 +101,7 @@ class Wechat {
           const data = await this.getAccessToken()
           // 获取文件之后，保存到本地
           this.saveAccessToken(data)
+          app.context.access_token = data.access_token
           reject(err)
         })
     })

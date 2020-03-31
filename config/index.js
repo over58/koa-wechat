@@ -1,8 +1,11 @@
 // 默认配置项
-let config = {
-  appId: 'wx61364cd23359d0f6',
-  appSecret: 'a91bf7089ae61b580fe4768ab0b68cac',
-  token: 'wy2020wechat'
+module.exports = {
+  "appId": "wxfc0f4d4200f5691e",
+  "appSecret": "368dc81a72aec2e3ab12d71068548d67",
+  "token": "xuyongchao",
+  "authorize_redirect_url": "your url/wechat",
+  "db": {
+    "url": "your db url",
+    "password": "your db password"
+  }
 }
-
-module.exports = config

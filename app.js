@@ -12,17 +12,29 @@ const wechat = require('./wechat/wechat')
 const auth = require('./wechat/auth')
 // 每次启动都会自动获取access_token
 const wx = require('./wechat/accessToken')
+// 打印
+const { logger, accessLogger } = require('./middleware/log');
+
+const koaBody = require('koa-body');
+const menu = require('./wechat/menu')
+
 // 初始化调用
-wx.init()
+wx.init(app)
 // 执行跨域方法
 app.use(cors())
 // 指定网页目录
 app.use(views(__dirname + '/views'))
+
+app.use(accessLogger());
 // 启动路由
 app.use(auth.routes(), auth.allowedMethods());
+app.use(koaBody(), menu.routes(), menu.allowedMethods());
 // 服务器有效验证
 app.use(wechat())
 
+app.on('error', err => {
+  logger.error(err)
+})
 
 // 监听端口
 app.listen(3000, () => {

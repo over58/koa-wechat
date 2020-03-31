@@ -6,30 +6,103 @@
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
   <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
-  <title>微信网页授权</title>
+  <title>examples</title>
+  <style>
+    .api-container{
+      width: 500px;
+      float: left;
+    }
+    #response-container{
+      margin-left: 500px;
+      height: 500px;
+      border: solid 1px #dfdfdf;
+      border-radius: 5px;
+      color: white;
+      background: rgba(0, 0, 0, .8);
+      padding: 5px;
+    }
+  </style>
 </head>
 
+
 <body>
-  <h1>跳转之后的页面</h1>
-  <img
-    src="http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJz3liaZIp28CBwFUMKeA6zUe7WyD97MBVHwFsystQ4icGbX7mxbBEAcib8pLiceBfFfHWdbFAkGAXJbA/132"
-    alt="用户头像">
   <script>
-    // 第二步：通过code换取网页授权access_token
-    // 获取url中的参数
-    function GetQueryString(name) {
-      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-      var r = window.location.search.substr(1).match(reg);
-      if (r != null) return unescape(r[2]);
-      return null;
+
+    function showResult(data){
+      $('#response-container').text(JSON.stringify(data, null, 2))
     }
-    const data = {
-      code: GetQueryString("code")
+
+    function getUserList(){
+      $.get('/user', (data) => {
+          showResult(data)
+        }
+      )
     }
-    $.get("http://wechatwy.free.idcfengye.com/login", data, function (result) {
-      console.log(result)
-    });
+
+    function  getUserInfo(){
+      $.get('/userinfo', {
+          openid: $('#openid').val()
+        },
+        (data) => {
+          showResult(data)
+        }
+      )
+    }
+
+    function listGroup(){
+      $.get('/group', (data) => {
+          showResult(data)
+        }
+      )
+    }
+
+    function addGroup(){
+      $.post('/group', {
+        "group_name": $("group_name").val()
+      },(data) => {
+          showResult(data)
+        }
+      )
+    }
+
+    function sendMessage(){
+      $.post('/message', {
+        "content": $("#textmsg").val()
+      },(data) => {
+          showResult(data)
+        }
+      )
+    }
+
   </script>
+
+  <ul class="api-container">
+    <li>
+      获取用户列表<button onclick="getUserList()">userlist</button>
+    </li>
+    <li>
+      获取用户信息<input type="text" id="openid">
+      <button onclick="getUserInfo()">userInfo</button>
+    </li>
+    <li>
+      获得分组信息
+      <button onclick="listGroup()">listGroup</button>
+    </li>
+    <li>
+      创建分组<input type="text" id="group_name">
+      <button onclick="addGroup()">addGroup</button>
+    </li>
+
+    <li>
+      发送文本消息<input type="text" id="textmsg">
+      <button onclick="sendMessage()">sendMessage</button>
+    </li>
+  </ul>
+
+
+  <pre id="response-container">
+    
+  </pre>
 </body>
 
 </html>

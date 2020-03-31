@@ -14,7 +14,7 @@ const axios = require('axios')
 const config = require('../config/index')
 
 // 首页
-router.get('/', async (ctx) => {
+router.get('/home', async (ctx, next) => {
   await ctx.render('home')
 })
 

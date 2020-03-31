@@ -12,6 +12,7 @@ const { token } = require('../config/index')
 // 服务器有效验证
 module.exports = () => {
   return ctx => {
+    console.log('验证接口配置...')
     // 获取服务器传递的内容
     const { signature, timestamp, nonce, echostr } = ctx.query
     // 字典排序
@@ -22,7 +23,6 @@ module.exports = () => {
       // 原样返回echostr参数内容
       return ctx.body = echostr
     }
-    console.log('come here...')
     // 在页面执行会直接进行到这一步，因为没有上面的判断不相等
     ctx.status = 401
     ctx.body = '服务器签名无效'

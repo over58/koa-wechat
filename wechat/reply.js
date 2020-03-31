@@ -7,7 +7,7 @@ const replyRuleList = require('../config/reply-rule')
 router.post('/', xmlMiddle, async (ctx) => {
   const {Content: content = [], FromUserName = []} = ctx.request.body
   const msg = content[0] || ''
-  const rule = replyRuleList.find(x => x.key.includes(msg.trim()))
+  const rule = replyRuleList.find(x => msg.trim().includes(x.key))
 
   let replyMsg = msg
 
@@ -23,9 +23,8 @@ router.post('/', xmlMiddle, async (ctx) => {
         return word
       }
     })
-    // let str = msg.replace('你', ',^,').replace('我', '你').replace(',^,', '我')
     replyMsg = '暂时没有配置关键字，略略略: ' + str
-  } 
+  }
 
   await axios.post(`https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=${ctx.access_token}`, {
     touser: FromUserName[0] || "o1hUvuJlqSoFKjHAJ4lSzr-aa0SE",

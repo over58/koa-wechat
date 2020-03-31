@@ -4,7 +4,7 @@
 ```
 npm install
 npm start
-访问http://localhost:3000
+访问http://localhost:3000/home
 ```
 
 #### 介绍

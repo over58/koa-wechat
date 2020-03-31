@@ -10,13 +10,15 @@ const app = new koa()
 const wechat = require('./wechat/wechat')
 // 引入网页授权
 const auth = require('./wechat/auth')
+// 自动回复
+const reply = require('./wechat/reply')
 // 每次启动都会自动获取access_token
 const wx = require('./wechat/accessToken')
 // 打印
 const { logger, accessLogger } = require('./middleware/log');
 
 const koaBody = require('koa-body');
-const menu = require('./wechat/menu')
+const api = require('./wechat/api')
 
 // 初始化调用
 wx.init(app)
@@ -28,7 +30,8 @@ app.use(views(__dirname + '/views'))
 app.use(accessLogger());
 // 启动路由
 app.use(auth.routes(), auth.allowedMethods());
-app.use(koaBody(), menu.routes(), menu.allowedMethods());
+app.use(reply.routes(), reply.allowedMethods());
+app.use(koaBody(), api.routes(), api.allowedMethods());
 // 服务器有效验证
 app.use(wechat())
 

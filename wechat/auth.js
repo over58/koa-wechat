@@ -13,20 +13,6 @@ const axios = require('axios')
 // 引入默认配置
 const config = require('../config/index')
 
-const xmlMiddle = require('../middleware/xml')
-
-router.post('/', xmlMiddle, async (ctx) => {
-  const {Content: content = [], FromUserName = []} = ctx.request.body
-  const msg = content[0] || ''
-  await axios.post(`https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=${ctx.access_token}`, {
-    touser: FromUserName[0] || "o1hUvuJlqSoFKjHAJ4lSzr-aa0SE",
-    msgtype: "text",
-    text: {
-      content: msg
-    }
-  })
-})
-
 // 首页
 router.get('/', async (ctx) => {
   await ctx.render('home')

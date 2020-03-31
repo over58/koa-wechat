@@ -1,4 +1,6 @@
 # koa-wechat
+#### 介绍
+微信公众号简单开发demo
 
 ### 运行
 ```
@@ -6,9 +8,6 @@ npm install
 npm start
 访问http://localhost:3000/home
 ```
-
-#### 介绍
-微信公众号简单开发demo
 
 #### 测试的功能
 - access_token获取，更新问题
